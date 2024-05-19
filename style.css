@@ -22,3 +22,9 @@ td {
 input {
     margin-left: 30px;
 }
+
+audio {
+    margin-left: 30px;
+    height: 20px;
+    width: 200px;
+}
