@@ -1,25 +1,54 @@
-var x;
-var y;
-let raindrop;
+// let raindrop;
 const rain = new Array();
+let count = 300;
+let width = 4;
+let height = 30;
+let gravity = 10;
+let rdColor = "#730073"
+let bgColor = "#000000"
+
+const countInput = document.getElementById("countInput")
+const widthInput = document.getElementById("widthInput")
+const heightInput = document.getElementById("heightInput")
+const gravityInput = document.getElementById("gravityInput")
+const rdColorInput = document.getElementById("rdColorInput")
+const bgColorInput = document.getElementById("bgColorInput")
+
+countInput.addEventListener('input', updateValues);
+widthInput.addEventListener('input', updateValues);
+heightInput.addEventListener('input', updateValues);
+gravityInput.addEventListener('input', updateValues);
+bgColorInput.addEventListener('input', updateColors);
+rdColorInput.addEventListener('input', updateColors);
+
+function updateValues() {
+    count = parseInt(countInput.value);
+    width = parseInt(widthInput.value);
+    height = parseInt(heightInput.value);
+    gravity = parseInt(gravityInput.value); 
+}
+
+function updateColors() {
+    rdColor = rdColorInput.value;
+    bgColor = bgColorInput.value;
+}
+
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    x = 30;
-    y = 50;
-    raindrop = new Raindrop(Math.random(), 400, 50)//scale, x, y (x and y optional)
-    console.log(raindrop)
+    // raindrop = new Raindrop(Math.random()+0.1, 400, 50)//scale, x, y (x and y optional)
+    // console.log(raindrop)
     console.log(`${windowWidth}||${windowHeight}`)
     var i = 0;
-    while (i<200) {
+    while (i<300) {
         rain.unshift(new Raindrop(Math.random(), Math.random() * windowWidth, 0 - Math.random() * windowHeight))
         i++;
-        console.log("A")
     }
 }
 
 function draw() {
-    background(0);
-    raindrop.draw();
+    background(bgColor);
+    // raindrop.draw();
     rain.forEach(element => {
         element.draw()
     });
@@ -63,7 +92,8 @@ class Raindrop {
 
     draw() {
         //noStroke();
-        fill(255, 0, 255, this.opacity); 
+        fill(128,0,128, this.opacity);
+        //fill(rdColor + this.opacity.toString(16));
         quad(
             this.x,this.y, 
             this.x + this.width, this.y, 
