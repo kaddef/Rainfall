@@ -4,7 +4,7 @@ var audio = document.getElementById("audio");
 let count = 300;
 let width = 4;
 let height = 30;
-let gravity = 10;
+let gravity = 20;
 let rdColor = "#730073"
 let bgColor = "#000000"
 
@@ -107,8 +107,9 @@ class Raindrop {
         this.height = height; //To reset value ​​if object pooling is used
         this.scale = Math.round(Math.random() * 10) / 10 //This line conflicts with the constructor
         this.opacity = Math.round(map(this.scale, 0, 1, 55, 200))//Change 0 and 255 make more smooth
-        //this.deviation = Math.round((Math.random() * 2 - 1) * 10) / 10 // Can I use normal distribution
-        this.deviation = Math.round((Math.random() - 0.5) * 10) / 10 // USE THIS OR THE UP ONE
+        //this.deviation = Math.round((Math.random() * 2 - 1) * 10) / 10 // 1.0 or -1.0 Can I use normal distribution 
+        //this.deviation = Math.round((Math.random() - 0.5) * 10) / 10 // 0.5 or -0.5
+        this.deviation = Math.round((Math.random() * 0.6 - 0.3) * 10) / 10; //0.3 or -0.3
         this.speed = (Math.round((Math.random() + 1) * gravity) / 10 ) * 10;
         this.width = this.width * (this.scale + 0.5);
         this.height = this.height * (this.scale + 0.5);
