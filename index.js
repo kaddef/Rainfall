@@ -1,5 +1,6 @@
 // let raindrop;
 const rain = new Array();
+var audio = document.getElementById("audio");
 let count = 300;
 let width = 4;
 let height = 30;
@@ -22,7 +23,16 @@ bgColorInput.addEventListener('input', updateColors);
 rdColorInput.addEventListener('input', updateColors);
 
 function updateValues() {
-    count = parseInt(countInput.value);
+    var newCount = parseInt(countInput.value);
+    if (!isNaN(newCount)) {
+        if (newCount > 500) {
+            newCount = 500;
+            countInput.value = 500; // Input alanını da güncelle
+        }
+        if (newCount !== count) {
+            updateRaindropCount(newCount);
+        }
+    }
     width = parseInt(widthInput.value);
     height = parseInt(heightInput.value);
     gravity = parseInt(gravityInput.value); 
@@ -33,14 +43,29 @@ function updateColors() {
     bgColor = bgColorInput.value;
 }
 
+function updateRaindropCount(newCount) {
+    count = newCount;
+    if (rain.length < count) {
+        while (rain.length < count) {
+            rain.unshift(new Raindrop(Math.random(), Math.random() * windowWidth, 0 - Math.random() * windowHeight));
+        }
+    } else if (rain.length > count) {
+        rain.splice(count);
+    }
+}
+
+// function preload() {
+//     song = loadSound
+// }
 
 function setup() {
+    audio.volume = 0.1;
     createCanvas(windowWidth, windowHeight);
     // raindrop = new Raindrop(Math.random()+0.1, 400, 50)//scale, x, y (x and y optional)
     // console.log(raindrop)
     console.log(`${windowWidth}||${windowHeight}`)
     var i = 0;
-    while (i<300) {
+    while (i<count) {
         rain.unshift(new Raindrop(Math.random(), Math.random() * windowWidth, 0 - Math.random() * windowHeight))
         i++;
     }
@@ -78,22 +103,22 @@ class Raindrop {
     }
 
     attributeInitialization() { //If object pooling is implemented, this function will make my job easier.
-        this.width = 4; //To reset value ​​if object pooling is used
-        this.height = 30; //To reset value ​​if object pooling is used
+        this.width = width; //To reset value ​​if object pooling is used
+        this.height = height; //To reset value ​​if object pooling is used
         this.scale = Math.round(Math.random() * 10) / 10 //This line conflicts with the constructor
-        this.opacity = Math.round(map(this.scale, 0, 1, 0, 255))//Change 0 and 255 make more smooth
+        this.opacity = Math.round(map(this.scale, 0, 1, 55, 200))//Change 0 and 255 make more smooth
         //this.deviation = Math.round((Math.random() * 2 - 1) * 10) / 10 // Can I use normal distribution
         this.deviation = Math.round((Math.random() - 0.5) * 10) / 10 // USE THIS OR THE UP ONE
-        this.speed = (Math.round((Math.random() + 1) * 10) / 10 ) * 10;
+        this.speed = (Math.round((Math.random() + 1) * gravity) / 10 ) * 10;
         this.width = this.width * (this.scale + 0.5);
         this.height = this.height * (this.scale + 0.5);
         //this.printAllAttributes();
     }
 
     draw() {
-        //noStroke();
-        fill(128,0,128, this.opacity);
-        //fill(rdColor + this.opacity.toString(16));
+        noStroke();
+        //fill(128,0,128, this.opacity);
+        fill(rdColor + this.opacity.toString(16));
         quad(
             this.x,this.y, 
             this.x + this.width, this.y, 
@@ -127,4 +152,5 @@ class Raindrop {
 }
 
 // TODO
-// Maybe the heavier raindrops can fall faster than the small ones
+// Maybe the bigger raindrops can fall faster than the small ones
+// fix scale 0 poblem
