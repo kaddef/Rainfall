@@ -1,4 +1,3 @@
-// let raindrop;
 const rain = new Array();
 var audio = document.getElementById("audio");
 let count = 300;
@@ -27,7 +26,7 @@ function updateValues() {
     if (!isNaN(newCount)) {
         if (newCount > 500) {
             newCount = 500;
-            countInput.value = 500; // Input alanını da güncelle
+            countInput.value = 500;
         }
         if (newCount !== count) {
             updateRaindropCount(newCount);
@@ -54,16 +53,10 @@ function updateRaindropCount(newCount) {
     }
 }
 
-// function preload() {
-//     song = loadSound
-// }
-
 function setup() {
-    audio.volume = 0.1;
+    audio.volume = 0.3;
     createCanvas(windowWidth, windowHeight);
-    // raindrop = new Raindrop(Math.random()+0.1, 400, 50)//scale, x, y (x and y optional)
-    // console.log(raindrop)
-    console.log(`${windowWidth}||${windowHeight}`)
+
     var i = 0;
     while (i<count) {
         rain.unshift(new Raindrop(Math.random(), Math.random() * windowWidth, 0 - Math.random() * windowHeight))
@@ -73,7 +66,6 @@ function setup() {
 
 function draw() {
     background(bgColor);
-    // raindrop.draw();
     rain.forEach(element => {
         element.draw()
     });
@@ -128,7 +120,7 @@ class Raindrop {
         );
 
         if(this.y > windowHeight + 100) {
-            this.x = Math.floor(Math.random() * windowWidth) // maybe delete this
+            this.x = Math.floor(Math.random() * windowWidth)
             this.y = -100;
             this.attributeInitialization();
         } else if(this.x > windowWidth + 100 || this.x < -100) {
@@ -151,7 +143,3 @@ class Raindrop {
         console.log(`Speed:${this.speed}`)
     }
 }
-
-// TODO
-// Maybe the bigger raindrops can fall faster than the small ones
-// fix scale 0 poblem
